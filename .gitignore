@@ -1,0 +1,19 @@
+##############################
+## Java
+##############################
+.mtj.tmp/
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+hs_err_pid*
+replay_pid*
+
+##############################
+## Visual Studio Code
+##############################
+*/.vscode/launch.json
+*/.vscode/tasks.json
+
+*.code-workspace
