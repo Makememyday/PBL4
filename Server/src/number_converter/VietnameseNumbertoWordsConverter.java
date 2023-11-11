@@ -16,8 +16,7 @@ public class VietnameseNumbertoWordsConverter extends NumberToWordsConverter
         return instance;
 	}
 	
-	
-	public final String[] VI_DIGITS = {
+	private final String[] VI_DIGITS = {
         "không", "một", "hai", "ba", "bốn",
         "năm", "sáu", "bảy", "tám", "chín"
 	};
@@ -42,13 +41,16 @@ public class VietnameseNumbertoWordsConverter extends NumberToWordsConverter
             unit = "triệu";
         } else {
             int level = index / 3;
+            StringBuilder strBuilder = new StringBuilder();
             for (int i = 1; i <= level; ++i) {
-                unit += "tỉ ";
+                strBuilder.append("tỉ ");
             }
             if (level > 0) {
-            	// Bỏ đi 1 kí tự space thừa
-                unit = unit.substring(0, unit.length() - 1);
+                // Xóa đi một kí tự space thừa ở cuối xâu
+                strBuilder.deleteCharAt(strBuilder.length() - 1);
             }
+
+            unit = strBuilder.toString();
         }
         
         return unit;
