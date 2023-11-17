@@ -1,0 +1,8 @@
+Một số fonts (có thể) dùng:
+    1. CocoFY-Regular.otf
+    2. NorthLand-FSScript.otf
+    3. NorthLand-Swash.otf
+    4. UTTriumph-Press.otf
+    5. UTTriumph-Regular.otf
+    6. Ink Free
+    

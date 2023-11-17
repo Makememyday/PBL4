@@ -24,8 +24,9 @@ class ClientHandler implements Runnable
                 }
 
                 try {
-                    dos.writeUTF(NumberToWordsConverter.convert(inputNumber, Language.VI));
-                    dos.writeUTF(NumberToWordsConverter.convert(inputNumber, Language.EN));
+                    dos.writeUTF("Bằng Tiếng Việt: " + NumberToWordsConverter.convert(inputNumber, Language.VI) + '\n');
+                    dos.writeUTF("Bằng Tiếng Anh: " + NumberToWordsConverter.convert(inputNumber, Language.EN) + '\n');
+                    dos.writeUTF("%END%");
                 } catch (IllegalArgumentException excp) {
                     dos.writeUTF("Error: " + excp.getMessage());
                 }
