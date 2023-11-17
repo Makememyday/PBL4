@@ -31,6 +31,8 @@ public abstract class NumberToWordsConverter
 
 	protected String convert(String s)
 	{
+		if (s.isEmpty()) return "";
+
 		if (!isValidStringNumber(s)) {
 			throw new IllegalArgumentException("String argument is invalid");
 		}
