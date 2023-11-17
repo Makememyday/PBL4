@@ -45,28 +45,36 @@ public abstract class NumberToWordsConverter
         String[] digits = getDigitLiterals();
         
         StringBuilder res = new StringBuilder();
-        
-        int unitIndex = 0;
+        int unitIndex = (len - 1) / 3;
 
-        for (int i = len - 1; i >= 0;) {
-        	if (i >= 2) {
-                int c = digitArr[i];
-                int b = digitArr[i - 1];
-                int a = digitArr[i - 2];
-                if (a + b + c != 0) {
-                    res.insert(0, readThreeDigit(a, b, c) + " " + getUnit(unitIndex) + ", ");
-                }
-                i -= 3;
-            } else {
-                if (i == 1) {
-                    res.insert(0, readTwoDigit(digitArr[0], digitArr[1]) + " " + getUnit(unitIndex) + ", ");
-                } else {
-                    res.insert(0, digits[digitArr[0]] + " " + getUnit(unitIndex) + ", ");
-                }
-                break;
-            }
-        	
-            ++unitIndex;
+		if (len % 3 != 0) {
+			// Đọc riêng cụm đầu tiên có ít hơn 3 chữ số
+			if (len % 3 == 2) {
+				// Đọc số có hai chữ số
+				res.append(readTwoDigit(digitArr[0], digitArr[1]));
+			} else {
+				// Đọc số có một chữ số
+				res.append(digits[digitArr[0]]);
+			}
+			// Gắn cụm với đơn vị
+			res.append(" " + getUnit(unitIndex) + ", ");
+			--unitIndex;
+		}
+
+		int startIndex = len % 3; // vị trí bắt đầu của các cụm có đủ 3 chữ số
+        for (int i = startIndex; i < len; i += 3) {
+			int hundredsDigit = digitArr[i];
+			int tensDigit = digitArr[i + 1];
+			int onesDigit = digitArr[i + 2];
+
+			if (hundredsDigit + tensDigit + onesDigit != 0) {
+				// Đọc số có 3 chữ số và gắn với 
+				res.append(readThreeDigit(hundredsDigit, tensDigit, onesDigit));
+				// Gắn cụm với đơn vị
+				res.append(" " + getUnit(unitIndex) + ", ");
+			}
+
+            --unitIndex;
         }
 
         // Remove the trailing ", "
