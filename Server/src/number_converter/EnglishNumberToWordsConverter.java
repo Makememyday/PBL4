@@ -16,7 +16,7 @@ public class EnglishNumberToWordsConverter extends NumberToWordsConverter
 	}
 	
 	
-	public final String[] EN_DIGITS = {
+	private final String[] EN_DIGITS = {
         "zero", "one", "two", "three", "four",
         "five", "six", "seven", "eight", "nine"
     };
@@ -38,6 +38,11 @@ public class EnglishNumberToWordsConverter extends NumberToWordsConverter
         "duoquadragintillions", "tresquadragintillions", "quattuorquadragintillions",
         "quinquadragintillions", "sexquadragintillions", "septenquadragintillions",
         "octoquadragintillions", "novemquadragintillions"
+    };
+
+    private final String[] secondDigitName = {
+        "", "", "twenty", "thirty", "forty", "fifty",
+        "sixty", "seventy", "eighty", "ninety"
     };
 
     @Override
@@ -72,11 +77,6 @@ public class EnglishNumberToWordsConverter extends NumberToWordsConverter
                     return EN_DIGITS[c] + "teen";
             }
         } else {
-            String[] secondDigitName = {
-                "", "", "twenty", "thirty", "forty", "fifty",
-                "sixty", "seventy", "eighty", "ninety"
-            };
-
             if (c == 0) {
                 return secondDigitName[b];
             } else {
