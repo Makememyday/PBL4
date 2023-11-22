@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="1000.0" spacing="15.0" stylesheets="@ClientGUI.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ClientController">
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+   <children>
+      <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="260.0" spacing="20.0" styleClass="container">
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+         <children>
+            <ImageView fx:id="AppIcon" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Image/App's%20icon.jpg" />
+               </image></ImageView>
+            <Line fx:id="SidebarSplitter" endX="100.0" startX="-100.0" />
+            <VBox prefHeight="460.0" prefWidth="234.0" spacing="2.0">
+               <children>
+                  <HBox fx:id="menubox" onMouseClicked="#functionalSelectionHandle" prefHeight="44.0" prefWidth="200.0" spacing="10.0">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <children>
+                        <ImageView fx:id="FunctionalIcon" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Image/Ellipse%202.png" />
+                           </image></ImageView>
+                        <Label fx:id="FunctionalName" text="Convert number to word">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+      <VBox prefHeight="599.0" prefWidth="705.0" spacing="30.0">
+         <children>
+            <Label fx:id="FunctionalNameLabel" alignment="BOTTOM_LEFT" prefHeight="49.0" prefWidth="699.0" text="Label">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Label>
+            <VBox prefHeight="175.0" prefWidth="100.0">
+               <children>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="200.0" spacing="25.0">
+                     <children>
+                        <Label fx:id="SampleLabel" onMouseClicked="#sampleLabelSelectedHandle" text="Sample">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <ImageView fx:id="Clean" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" onMouseClicked="#clearButtonHandle">
+                           <image>
+                              <Image url="@Image/DeleteIcon.png" />
+                           </image></ImageView>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" />
+                     </padding>
+                  </HBox>
+                  <TextArea fx:id="Input" onKeyReleased="#userInputHandle" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" promptText="Enter number here " wrapText="true" />
+               </children>
+            </VBox>
+            <HBox alignment="CENTER" prefHeight="43.0" prefWidth="200.0" spacing="32.0">
+               <padding>
+                  <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+               </padding>
+               <children>
+                  <CheckBox fx:id="AutoConvertBox" mnemonicParsing="false" onMouseClicked="#autoConvertBoxHandle" selected="true" text="Auto" />
+                  <Button fx:id="ConvertButton" mnemonicParsing="false" text="Convert" onMouseClicked="#convertButtonHandle" />
+                  <ComboBox fx:id="ChooseLanguageBox" prefHeight="33.0" prefWidth="174.0" promptText="Choose language" onMouseClicked="#doSomething" onAction="#chooseLanguageBoxHandle"/>
+               </children>
+            </HBox>
+            <TextArea fx:id="Output" prefHeight="241.0" prefWidth="700.0" wrapText="true" />
+         </children>
+      </VBox>
+   </children>
+   <padding>
+      <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+   </padding>
+</HBox>

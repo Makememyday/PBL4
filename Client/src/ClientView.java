@@ -1,67 +1,33 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+//import Controller.ClientController;
+import Model.ClientModel;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
-public class ClientView extends JFrame {
-    private JTextField inputField;
-    private JTextArea outputArea;
-    private JButton sendButton;
-    private ClientController controller;
-    private boolean isRequestEnabled = false;
+public class ClientView extends Application {
 
-    public ClientView() {
-        super("Client Application");
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        // Load FXML file
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML/ClientGUI.fxml"));
+        HBox root = loader.load();
 
-        inputField = new JTextField(20);
-        outputArea = new JTextArea(10, 40);
-        sendButton = new JButton("Send");
+        ClientModel model = new ClientModel();
 
-        outputArea.setEditable(false);
+        // Create a Scene with the loaded root node
+        Scene scene = new Scene(root, 1000, 600);
 
-        sendButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                sendMessageToServer();
-            }
-        });
+        // Set the scene for the primaryStage (main window)
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Convert Number");
 
-        setLayout(new BorderLayout());
-        add(inputField, BorderLayout.NORTH);
-        add(new JScrollPane(outputArea), BorderLayout.CENTER);
-        add(sendButton, BorderLayout.SOUTH);
-
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        pack();
-        setVisible(true);
+        // Show the primaryStage
+        primaryStage.show();
     }
 
-    public void setController(ClientController controller) {
-        this.controller = controller;
-    }
-
-    public void displayMessage(String message) {
-        outputArea.append(message + '\n');
-    }
-
-    public String getClientInput() {
-        return inputField.getText();
-    }
-
-    private void sendMessageToServer() {
-        if (controller != null) {
-            String message = inputField.getText();
-
-            if (message.isEmpty()) {
-                isRequestEnabled = false;
-            }
-            else {
-                isRequestEnabled = true;
-            }
-
-            if (isRequestEnabled) {
-                inputField.setText("");
-                controller.sendMessageToServer(message);  
-            } 
-        }
+    public static void main(String[] args) {
+        launch(args);
     }
 }

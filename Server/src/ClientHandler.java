@@ -22,10 +22,15 @@ class ClientHandler implements Runnable
                 if (inputNumber == "exit") {
                     break;
                 }
-
                 try {
-                    dos.writeUTF("Bằng Tiếng Việt: " + NumberToWordsConverter.convert(inputNumber, Language.VI) + '\n');
-                    dos.writeUTF("Bằng Tiếng Anh: " + NumberToWordsConverter.convert(inputNumber, Language.EN) + '\n');
+                    //If inputNumber contains "VI", convert to Vietnamese, else convert to English
+                    if (inputNumber.contains("VI")) {
+                        inputNumber = inputNumber.substring(0, inputNumber.length() - 3);
+                        dos.writeUTF("Bằng Tiếng Việt: " + NumberToWordsConverter.convert(inputNumber, Language.VI) + '\n');
+                    } else if (inputNumber.contains("EN")) {
+                        inputNumber = inputNumber.substring(0, inputNumber.length() - 3);
+                        dos.writeUTF("By English: " + NumberToWordsConverter.convert(inputNumber, Language.EN) + '\n');
+                    } 
                     dos.writeUTF("%END%");
                 } catch (IllegalArgumentException excp) {
                     dos.writeUTF("Error: " + excp.getMessage());
