@@ -99,15 +99,15 @@ public class VietnameseNumbertoWordsConverter extends NumberToWordsConverter
 		// TH a != 0 -> Can doc chu so hang tram a
 	    // TH a == 0 -> Trc a se co mot chu so khac 0 nen 
 		// 	 van doc chu so hang tram a -> "khong tram"
-		String res = VI_DIGITS[a] + " trăm ";
+		String res = VI_DIGITS[a] + " trăm";
 		
         if (b == 0) {
         	// TH b == 0
             // so n co dang a0c, nếu c != 0 --> Đọc "lẻ c"
-            if (c != 0) res += "lẻ " + VI_DIGITS[c];
+            if (c != 0) res += " lẻ " + VI_DIGITS[c];
         } else {
         	// TH b != 0 --> Doc tiep so co hai chu so bc
-            res += readTwoDigit(b, c);
+            res += " " + readTwoDigit(b, c);
         }
         return res;
 	}
