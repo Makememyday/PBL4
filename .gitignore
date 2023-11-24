@@ -3,7 +3,6 @@
 ##############################
 .mtj.tmp/
 *.class
-*.jar
 *.war
 *.ear
 *.nar
@@ -13,7 +12,9 @@ replay_pid*
 ##############################
 ## Visual Studio Code
 ##############################
-*/.vscode/launch.json
-*/.vscode/tasks.json
+Server/.vscode/launch.json
+Server/.vscode/tasks.json
+Server/bin
+Client/bin
 
-*.code-workspace
+Client/.vscode/tasks.json
