@@ -39,7 +39,7 @@
                            <image>
                               <Image url="@Image/Ellipse%202.png" />
                            </image></ImageView>
-                        <Label fx:id="FunctionalName" text="Convert number to word">
+                        <Label fx:id="FunctionalName" text="Chuyển số thành chữ">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -61,7 +61,7 @@
                <children>
                   <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="200.0" spacing="25.0">
                      <children>
-                        <Label fx:id="SampleLabel" onMouseClicked="#sampleLabelSelectedHandle" text="Sample">
+                        <Label fx:id="SampleLabel" onMouseClicked="#sampleLabelSelectedHandle" text="Ví dụ mẫu">
                            <font>
                               <Font size="13.0" />
                            </font>
@@ -84,7 +84,7 @@
                </padding>
                <children>
                   <CheckBox fx:id="AutoConvertBox" mnemonicParsing="false" onMouseClicked="#autoConvertBoxHandle" selected="true" text="Auto" />
-                  <Button fx:id="ConvertButton" mnemonicParsing="false" text="Convert" onMouseClicked="#convertButtonHandle" />
+                  <Button fx:id="ConvertButton" mnemonicParsing="false" text="Chuyển đổi" onMouseClicked="#convertButtonHandle" />
                   <ComboBox fx:id="ChooseLanguageBox" prefHeight="33.0" prefWidth="174.0" promptText="Choose language" onMouseClicked="#doSomething" onAction="#chooseLanguageBoxHandle"/>
                </children>
             </HBox>
