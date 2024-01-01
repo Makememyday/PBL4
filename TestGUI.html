@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<!-- Create a rectangle in a div tag-->
+<html>
+<head>
+    <title>Test GUI</title>
+    <style>
+        #myCanvas {
+            border: 5px solid #000000;
+        }
+
+        .canvas_test {
+            border-radius: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div id="myCanvas">
+        <canvas id="canvas" width="500" height="500"></canvas>
+    </div>
+    <script>
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#FF0000";
+        ctx.fillRect(0, 0, 150, 75);
+    </script>
+</body>
+</html>

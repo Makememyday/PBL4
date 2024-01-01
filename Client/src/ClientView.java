@@ -14,8 +14,6 @@ public class ClientView extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML/ClientGUI.fxml"));
         HBox root = loader.load();
 
-        ClientModel model = new ClientModel();
-
         // Create a Scene with the loaded root node
         Scene scene = new Scene(root, 1000, 600);
 
