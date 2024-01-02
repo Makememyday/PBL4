@@ -155,8 +155,8 @@ public class ClientController {
                 } else if (languageSelect.equals("EN")){
                     input += " EN";
                 }
-
-                input += " " + selectedFunction.getName();
+                System.out.println(functionalSelected);
+                //input += " " + functionalSelected;
 
                 clientModel.sendMessageToServer(input);
                 String output = clientModel.receiveMessageFromServer();
