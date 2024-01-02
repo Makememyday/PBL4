@@ -155,6 +155,7 @@ public class ClientController {
                 } else if (languageSelect.equals("EN")){
                     input += " EN";
                 }
+
                 System.out.println(functionalSelected);
                 //input += " " + functionalSelected;
 
