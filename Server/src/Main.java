@@ -13,7 +13,7 @@ public class Main
 			    Socket socket = server.accept();
 			    System.out.println("Client connected: " + socket.getInetAddress());
 
-			    Thread clientThread = new Thread(new ClientHandler(socket));
+			    Thread clientThread = new Thread(new RequestHandler(socket));
 			    clientThread.start();
 			}
 		}

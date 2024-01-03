@@ -5,11 +5,11 @@ import base_converter.BaseConverter;
 
 import java.io.*;
 
-class ClientHandler implements Runnable 
+class RequestHandler implements Runnable 
 {
     private Socket clientSocket;
 
-    public ClientHandler(Socket clientSocket) {
+    public RequestHandler(Socket clientSocket) {
         this.clientSocket = clientSocket;
     }
 
