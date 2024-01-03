@@ -155,6 +155,7 @@ public class MainFunctionController {
                     String output = clientModel.receiveMessageFromServer();
                     Output.setText(output);
                 } catch (IOException e) {
+                    Output.setText("Lỗi: Không thể kết nối đến server");
                     e.printStackTrace();
                 }
             }
