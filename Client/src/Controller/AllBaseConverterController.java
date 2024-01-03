@@ -145,6 +145,7 @@ public class AllBaseConverterController {
                 Output.setText("");
             } 
             else {
+                
                 System.out.println(functionalSelected);
                 String functional = modeSwitch(functionalSelected);
                 input += " " + functional;
