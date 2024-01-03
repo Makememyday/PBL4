@@ -20,6 +20,13 @@ public class ClientModel {
     public void sendMessageToServer(String message) {
         try {
             dataOutputStream.writeUTF(message);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void flushMessage() {
+        try {
             dataOutputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();

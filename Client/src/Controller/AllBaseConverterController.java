@@ -134,6 +134,14 @@ public class AllBaseConverterController {
         isAutoConvert = AutoConvertBox.isSelected();
     }
 
+    public void sendRequest(String inputNumber, String fromBase, String toBase) {
+        System.out.println("Sending request to server: " + inputNumber + " " + fromBase + " " + toBase);
+        clientModel.sendMessageToServer("2");
+        clientModel.sendMessageToServer(inputNumber);
+        clientModel.sendMessageToServer(fromBase);
+        clientModel.sendMessageToServer(toBase);
+    }
+
     //Function to handle when user entering input and auto convert is on
     public void userInputHandle(KeyEvent event) {
         if (functionalSelected == null) {
@@ -145,11 +153,14 @@ public class AllBaseConverterController {
                 Output.setText("");
             } 
             else {
-                
-                System.out.println(functionalSelected);
-                String functional = modeSwitch(functionalSelected);
-                input += " " + functional;
-                clientModel.sendMessageToServer(input);
+                String fromBase = FromBase.getValue();
+                String toBase = ToBase.getValue();
+                if (fromBase == null || toBase == null) {
+                    Output.setText("Please select base");
+                    return;
+                }
+                sendRequest(input, fromBase, toBase);
+                clientModel.flushMessage();
                 try {
                     String output = clientModel.receiveMessageFromServer();
                     Output.setText(output);
@@ -180,12 +191,14 @@ public class AllBaseConverterController {
             Output.setText("");
         } 
         else {
-            
-            String functional = modeSwitch(functionalSelected);
-            
-            input += " " + functional;
-            
-            clientModel.sendMessageToServer(input);
+            String fromBase = FromBase.getValue();
+            String toBase = ToBase.getValue();
+            if (fromBase == null || toBase == null) {
+                Output.setText("Please select base");
+                return;
+            }
+            sendRequest(input, fromBase, toBase);
+            clientModel.flushMessage();
             try {
                 String output = clientModel.receiveMessageFromServer();
                 Output.setText(output);

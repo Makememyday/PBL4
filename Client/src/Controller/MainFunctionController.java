@@ -150,7 +150,7 @@ public class MainFunctionController {
             }
             else {
                 sendRequest(input, languageSelect);
-
+                clientModel.flushMessage();
                 try {
                     String output = clientModel.receiveMessageFromServer();
                     Output.setText(output);

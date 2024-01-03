@@ -32,6 +32,8 @@ public class BaseConverterController {
     private Stage stage;
     private Scene scene;
     private Parent root;
+    private String fromBase;
+    private String toBase;
     
     private MainFunctionController mainFunctionController;
     private AllBaseConverterController allBaseController;
@@ -131,10 +133,9 @@ public class BaseConverterController {
             String functional = modeSwitch(functionalSelected);
             if (isValidInput(functional, input))
             {
-                clientModel.sendMessageToServer("2");
-                clientModel.sendMessageToServer(input);
-                
-
+                setBase(functional);
+                sendRequest(input, fromBase, toBase);
+                clientModel.flushMessage();
                 try {
                     String output = clientModel.receiveMessageFromServer();
                     Output.setText(output);
@@ -177,7 +178,47 @@ public class BaseConverterController {
         return mode;
     }
 
-    
+    public void sendRequest(String inputNumber, String fromBase, String toBase) {
+        System.out.println("Sending request to server: " + inputNumber);
+        clientModel.sendMessageToServer("2");
+        clientModel.sendMessageToServer(inputNumber);
+        clientModel.sendMessageToServer(fromBase);
+        clientModel.sendMessageToServer(toBase);
+    }
+
+    //Function Set fromBase and toBase from mode 
+    public void setBase (String mode) {
+        switch (mode) {
+            case "MODE2":
+                fromBase = "10";
+                toBase = "2";
+                break;
+            case "MODE3":
+                fromBase = "10";
+                toBase = "8";
+                break;
+            case "MODE4":
+                fromBase = "10";
+                toBase = "16";
+                break;
+            case "MODE5":
+                fromBase = "2";
+                toBase = "10";
+                break;
+            case "MODE6":
+                fromBase = "8";
+                toBase = "10";
+                break;
+            case "MODE7":
+                fromBase = "16";
+                toBase = "10";
+                break;
+            default:
+                fromBase = "10";
+                toBase = "2";
+                break;
+        }
+    }
 
     //Function to handle when user click on convert button
     public void convertButtonHandle(MouseEvent event) {
@@ -189,8 +230,9 @@ public class BaseConverterController {
             String functional = modeSwitch(functionalSelected);
             if (isValidInput(functional, input))
             {
-                input += " " + functional;
-                clientModel.sendMessageToServer(input);
+                setBase(functional);
+                sendRequest(input, fromBase, toBase);
+                clientModel.flushMessage();
                 try {
                     String output = clientModel.receiveMessageFromServer();
                     Output.setText(output);
