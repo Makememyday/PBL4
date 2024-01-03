@@ -26,22 +26,8 @@ public class ClientModel {
         }
     }
 
-    public String receiveMessageFromServer() {
-        try {
-            StringBuilder messageFromServer = new StringBuilder();
-            while (true) {
-                String message = "";
-                message = dataInputStream.readUTF();
-                if (message.equals("%END%"))
-                    break;
-                messageFromServer.append(message);
-            }
-            
-            return messageFromServer.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "";
+    public String receiveMessageFromServer() throws IOException {
+        return dataInputStream.readUTF();
     }
 
     public void closeConnection() {

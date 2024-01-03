@@ -128,6 +128,13 @@ public class MainFunctionController {
         isAutoConvert = AutoConvertBox.isSelected();
     }
 
+    public void sendRequest(String inputNumber, String language) {
+        System.out.println("Sending request to server: " + inputNumber + " " + language);
+        clientModel.sendMessageToServer("1");
+        clientModel.sendMessageToServer(inputNumber);
+        clientModel.sendMessageToServer(language);
+    }
+
     //Function to handle when user entering input and auto convert is on
     public void userInputHandle(KeyEvent event) {
         if (functionalSelected == null) {
@@ -142,23 +149,18 @@ public class MainFunctionController {
                 Output.setText("Lỗi: Vui lòng nhập số nguyên dương");
             }
             else {
-                //Add language information to input
-                if (languageSelect.equals("VI")) {
-                    input += " VI";
-                } else if (languageSelect.equals("EN")){
-                    input += " EN";
+                sendRequest(input, languageSelect);
+
+                try {
+                    String output = clientModel.receiveMessageFromServer();
+                    Output.setText(output);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-
-                System.out.println(functionalSelected);
-                //input += " " + functionalSelected;
-
-                clientModel.sendMessageToServer(input);
-                String output = clientModel.receiveMessageFromServer();
-                Output.setText(output);
             }
         }
     }
-
+    
     public String modeSwitch (String functional) {
         String mode = "";
         switch (functional) {
@@ -182,19 +184,14 @@ public class MainFunctionController {
                 Output.setText("Lỗi: Vui lòng nhập số");
         }
         else {
-            //check if string language selected is Vietnamese, plus a VI, if English, plus a EN to input
-            if (languageSelect.equals("VI")) {
-                input += " VI";
-            } else if (languageSelect.equals("EN")){
-                input += " EN";
-            }
+            sendRequest(input, languageSelect);
 
-            String functional = modeSwitch(functionalSelected);
-            //input += " " + functional;
-            
-            clientModel.sendMessageToServer(input);
-            String output = clientModel.receiveMessageFromServer();
-            Output.setText(output);
+            try {
+                String output = clientModel.receiveMessageFromServer();
+                Output.setText(output);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

@@ -150,8 +150,12 @@ public class AllBaseConverterController {
                 String functional = modeSwitch(functionalSelected);
                 input += " " + functional;
                 clientModel.sendMessageToServer(input);
-                String output = clientModel.receiveMessageFromServer();
-                Output.setText(output);
+                try {
+                    String output = clientModel.receiveMessageFromServer();
+                    Output.setText(output);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -176,13 +180,18 @@ public class AllBaseConverterController {
             Output.setText("");
         } 
         else {
+            
             String functional = modeSwitch(functionalSelected);
             
             input += " " + functional;
             
             clientModel.sendMessageToServer(input);
-            String output = clientModel.receiveMessageFromServer();
-            Output.setText(output);
+            try {
+                String output = clientModel.receiveMessageFromServer();
+                Output.setText(output);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
