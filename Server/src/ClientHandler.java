@@ -31,7 +31,7 @@ class ClientHandler implements Runnable
                     try {
                          if (language.equalsIgnoreCase("VI")) {
                             response = NumberToWordsConverter.convert(inputNumber, Language.VI);
-                        } else if (inputNumber.contains("EN")) {
+                        } else if (language.equalsIgnoreCase("EN")) {
                             response = NumberToWordsConverter.convert(inputNumber, Language.EN);
                         }
                     } catch (IllegalArgumentException excep) {
