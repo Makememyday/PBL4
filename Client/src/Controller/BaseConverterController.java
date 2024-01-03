@@ -127,49 +127,41 @@ public class BaseConverterController {
             if (input.isEmpty()) {
                 Output.setText("");
             } 
-            else if (!input.matches("[0-9]+")) {
-                Output.setText("Lỗi: Vui lòng nhập số nguyên dương");
-            }
             else {
-                if (languageSelect == null) {
-                    languageSelect = "VI";
-                }
-                //Add language information to input
-                if (languageSelect.equals("VI")) {
-                    input += " VI";
-                } else if (languageSelect.equals("EN")){
-                    input += " EN";
-                }
-
-                System.out.println(functionalSelected);
-                //input += " " + functionalSelected;
-
+            String functional = modeSwitch(functionalSelected);
+            if (isValidInput(functional, input))
+            {
+                input += " " + functional;
                 clientModel.sendMessageToServer(input);
                 String output = clientModel.receiveMessageFromServer();
                 Output.setText(output);
             }
+            else {
+                Output.setText("Lỗi: Vui lòng nhập chuẩn định dạng");
+            }
+        }
         }
     }
 
     public String modeSwitch (String functional) {
         String mode = "";
         switch (functional) {
-            case "Chức năng 2":
+            case "Thập phân sang nhị phân":
                 mode = "MODE2";
                 break;
-            case "Chức năng 3":
+            case "Thập phân sang bát phân":
                 mode = "MODE3";
                 break;
-            case "Chức năng 4":
+            case "Thập phân sang thập lục phân":
                 mode = "MODE4";
                 break;
-            case "Chức năng 5":
+            case "Nhị phân sang thập phân":
                 mode = "MODE5";
                 break;
-            case "Chức năng 6":
+            case "Bát phân sang thập phân":
                 mode = "MODE6";
                 break;
-            case "Chức năng 7":
+            case "Thập lục phân sang thập phân":
                 mode = "MODE7";
                 break;
             default:
@@ -186,23 +178,59 @@ public class BaseConverterController {
             Output.setText("");
         } 
         else {
-            //check if string language selected is Vietnamese, plus a VI, if English, plus a EN to input
-            if (languageSelect == null) {
-                languageSelect = "VI";
-            }
-            if (languageSelect.equals("VI")) {
-                input += " VI";
-            } else if (languageSelect.equals("EN")){
-                input += " EN";
-            }
-
             String functional = modeSwitch(functionalSelected);
-            //input += " " + functional;
-            
-            clientModel.sendMessageToServer(input);
-            String output = clientModel.receiveMessageFromServer();
-            Output.setText(output);
+            if (isValidInput(functional, input))
+            {
+                input += " " + functional;
+                clientModel.sendMessageToServer(input);
+                String output = clientModel.receiveMessageFromServer();
+                Output.setText(output);
+            }
+            else {
+                Output.setText("Lỗi: Vui lòng nhập chuẩn định dạng");
+            }
         }
+    }
+
+    public boolean isValidInput(String mode, String input) {
+        boolean isValid = true;
+        switch (mode) {
+            case "MODE2":
+                if (!input.matches("[0-9]+")) {
+                    isValid = false;
+                }
+                break;
+            case "MODE3":
+                if (!input.matches("[0-9]+")) {
+                    isValid = false;
+                }
+                break;
+            case "MODE4":
+                if (!input.matches("[0-9]+")) {
+                    isValid = false;
+                }
+                break;
+            case "MODE5":
+                //bin to dec
+                if (!input.matches("[0-1]+")) {
+                    isValid = false;
+                }
+                break;
+            case "MODE6":
+                if (!input.matches("[0-7]+")) {
+                    isValid = false;
+                }
+                break;
+            case "MODE7":
+                if (!input.matches("[0-9A-Fa-f]+")) {
+                    isValid = false;
+                }
+                break;
+            default:
+                isValid = false;
+                break;
+        }
+        return isValid;
     }
 
     //Function to handle when user click on bin/clear icon

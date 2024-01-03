@@ -48,6 +48,10 @@ public class AllBaseConverterController {
     private TextArea Output;
     @FXML
     private CheckBox AutoConvertBox;
+    @FXML
+    private ComboBox<String> ToBase;
+    @FXML
+    private ComboBox<String> FromBase;
 
     public AllBaseConverterController() {
         clientModel = new ClientModel();
@@ -55,6 +59,19 @@ public class AllBaseConverterController {
 
     @FXML
     public void initialize() {
+        setBaseList();
+    }
+
+    public void setBaseList() {
+        //Set base for ToBase and FromBase with range [2,36]
+        ArrayList<String> baseList = new ArrayList<>();
+        for (int i = 2; i <= 36; i++) {
+            baseList.add(String.valueOf(i));
+        }
+        ObservableList<String> base = ToBase.getItems();
+        base.addAll(baseList);
+        base = FromBase.getItems();
+        base.addAll(baseList);
     }
     
     //Function to handle when user click on a functional box
@@ -127,23 +144,10 @@ public class AllBaseConverterController {
             if (input.isEmpty()) {
                 Output.setText("");
             } 
-            else if (!input.matches("[0-9]+")) {
-                Output.setText("Lỗi: Vui lòng nhập số nguyên dương");
-            }
             else {
-                if (languageSelect == null) {
-                    languageSelect = "VI";
-                }
-                //Add language information to input
-                if (languageSelect.equals("VI")) {
-                    input += " VI";
-                } else if (languageSelect.equals("EN")){
-                    input += " EN";
-                }
-
                 System.out.println(functionalSelected);
-                //input += " " + functionalSelected;
-
+                String functional = modeSwitch(functionalSelected);
+                input += " " + functional;
                 clientModel.sendMessageToServer(input);
                 String output = clientModel.receiveMessageFromServer();
                 Output.setText(output);
@@ -171,18 +175,9 @@ public class AllBaseConverterController {
             Output.setText("");
         } 
         else {
-            //check if string language selected is Vietnamese, plus a VI, if English, plus a EN to input
-            if (languageSelect == null) {
-                languageSelect = "VI";
-            }
-            if (languageSelect.equals("VI")) {
-                input += " VI";
-            } else if (languageSelect.equals("EN")){
-                input += " EN";
-            }
-
             String functional = modeSwitch(functionalSelected);
-            //input += " " + functional;
+            
+            input += " " + functional;
             
             clientModel.sendMessageToServer(input);
             String output = clientModel.receiveMessageFromServer();
