@@ -11,7 +11,7 @@ public class ClientView extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // Load FXML file
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML/ClientGUI.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML/MainFunctionalGUI.fxml"));
         HBox root = loader.load();
 
         // Create a Scene with the loaded root node
