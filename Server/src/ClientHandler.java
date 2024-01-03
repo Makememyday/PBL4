@@ -1,5 +1,8 @@
 import number_converter.*;
 import java.net.*;
+
+import base_converter.BaseConverter;
+
 import java.io.*;
 
 class ClientHandler implements Runnable 
@@ -17,25 +20,42 @@ class ClientHandler implements Runnable
             DataInputStream dis = new DataInputStream(clientSocket.getInputStream());
 
             while (true) {
+                int mode = Integer.parseInt(dis.readUTF());
+                
                 String inputNumber = dis.readUTF().trim();
 
-                if (inputNumber == "exit") {
-                    break;
-                }
-                try {
-                    //If inputNumber contains "VI", convert to Vietnamese, else convert to English
-                    if (inputNumber.contains("VI")) {
-                        inputNumber = inputNumber.substring(0, inputNumber.length() - 3);
-                        dos.writeUTF("Bằng Tiếng Việt: " + NumberToWordsConverter.convert(inputNumber, Language.VI) + '\n');
-                    } else if (inputNumber.contains("EN")) {
-                        inputNumber = inputNumber.substring(0, inputNumber.length() - 3);
-                        dos.writeUTF("By English: " + NumberToWordsConverter.convert(inputNumber, Language.EN) + '\n');
-                    } 
-                    dos.writeUTF("%END%");
-                } catch (IllegalArgumentException excp) {
-                    dos.writeUTF("Error: " + excp.getMessage());
+                String response = "";
+                if (mode == 1) {
+                    String language = dis.readUTF();
+                    
+                    try {
+                         if (language.equalsIgnoreCase("VI")) {
+                            response = NumberToWordsConverter.convert(inputNumber, Language.VI);
+                        } else if (inputNumber.contains("EN")) {
+                            response = NumberToWordsConverter.convert(inputNumber, Language.EN);
+                        }
+                    } catch (IllegalArgumentException excep) {
+                        response = "Error: " + excep.getMessage();
+                    } catch (Exception excep) {
+                        response = "Error: Something went wrong at server";
+                    }
+
+                } else if (mode == 2) {
+                    int fromBase = Integer.parseInt(dis.readUTF());
+                    int toBase = Integer.parseInt(dis.readUTF());
+
+                    try {
+                        response = BaseConverter.convertBase(inputNumber, fromBase, toBase);
+                    } catch (NumberFormatException excep) {
+                        response = "Error: Invalid input number";
+                    } catch (IllegalArgumentException excep) {
+                        response = "Error: " + excep.getMessage();
+                    } catch (Exception excep) {
+                        response = "Error: Something went wrong at server";
+                    }
                 }
 
+                dos.writeUTF(response);
                 dos.flush();
             }
         } catch (Exception e) {
