@@ -171,6 +171,8 @@ public class BaseConverterController {
         return mode;
     }
 
+    
+
     //Function to handle when user click on convert button
     public void convertButtonHandle(MouseEvent event) {
         String input = Input.getText();
