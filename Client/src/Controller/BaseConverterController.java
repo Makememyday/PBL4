@@ -6,10 +6,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -17,24 +15,19 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import FXML.FunctionModel;
 import Model.ClientModel;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 
 public class BaseConverterController {
+
     private ClientModel clientModel;
     private boolean isAutoConvert = true;
-    private String languageSelect;
-    private FunctionModel selectedFunction;
     private String functionalSelected;
     private Stage stage;
     private Scene scene;
     private Parent root;
     private String fromBase;
     private String toBase;
-    
+
     private MainFunctionController mainFunctionController;
     private AllBaseConverterController allBaseController;
 
@@ -42,8 +35,6 @@ public class BaseConverterController {
     private VBox MainContainer;
     @FXML
     private Label FunctionalNameLabel;
-    @FXML
-    private Label SampleLabel;
     @FXML
     private TextArea Input;
     @FXML
@@ -58,81 +49,77 @@ public class BaseConverterController {
     @FXML
     public void initialize() {
     }
-    
-    //Function to handle when user click on a functional box
+
+    // Function to handle when user click on a functional box
     public void functionalSelectionHandle(MouseEvent event) {
         HBox source = (HBox) event.getSource();
-        functionalSelected = "";
-        ObservableList<Node> children = source.getChildren();
-        for (Node node : children) {
-            if (node instanceof Label) {
-                functionalSelected = ((Label) node).getText();
-                break;
-            }
-        }
+        functionalSelected = source.getChildren()
+                .stream()
+                .filter(node -> node instanceof Label)
+                .map(node -> ((Label) node).getText())
+                .findFirst()
+                .orElse("");
         FunctionalNameLabel.setText(functionalSelected);
 
         if (!functionalSelected.equals("Chuyển số thành chữ")) {
             if (functionalSelected.equals("Chuyển đổi cơ số tùy chọn")) {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../FXML/AllBaseConverter.fxml"));
-                    root = loader.load();
-
-                    allBaseController = loader.getController();
-                    allBaseController.setFunction(functionalSelected);
-
-                    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    scene = new Scene(root);
-                    stage.setScene(scene);
-                    stage.show();
-                } catch (IOException e) {      
-                    e.printStackTrace();
-                }
+                loadAllBaseConverterView(event);
             }
-            else {}
-        }
-        else {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("../FXML/MainFunctionalGUI.fxml"));
-                root = loader.load();
-                mainFunctionController = loader.getController();
-                mainFunctionController.setFunction(functionalSelected);
-                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
-            } catch (IOException e) {         
-                e.printStackTrace();
-            }
+        } else {
+            loadMainFunctionalView(event);
         }
     }
 
-    //Function to handle when user click on a sample box
+    // Function to handle when user click on a sample box
     public void sampleLabelSelectedHandle(MouseEvent event) {
-        Input.setText("1234");
-        Output.setText("Một nghìn hai trăm ba mươi bốn\n");
-        Output.appendText("One thousand two hundreds and thiry-four\n");
+         //Sample for each mode
+        switch (functionalSelected) {
+            case "Thập phân sang nhị phân":
+                Input.setText("1234");
+                Output.setText("10011010010");
+                break;
+            case "Thập phân sang bát phân":
+                Input.setText("1234");
+                Output.setText("2322");
+                break;
+            case "Thập phân sang thập lục phân":
+                Input.setText("1234");
+                Output.setText("4D2");
+                break;
+            case "Nhị phân sang thập phân":
+                Input.setText("10011010010");
+                Output.setText("1234");
+                break;
+            case "Bát phân sang thập phân":
+                Input.setText("2322");
+                Output.setText("1234");
+                break;
+            case "Thập lục phân sang thập phân":
+                Input.setText("4D2");
+                Output.setText("1234");
+                break;
+            default:
+                break;
+        }
     }
 
-    //Function to set auto convert
+    // Function to set auto convert
     public void autoConvertBoxHandle(MouseEvent event) {
         isAutoConvert = AutoConvertBox.isSelected();
     }
 
-    //Function to handle when user entering input and auto convert is on
+    // Function to handle when user entering input and auto convert is on
     public void userInputHandle(KeyEvent event) {
-        if (functionalSelected == null) {
+        if (functionalSelected == null || !isAutoConvert) {
             return;
         }
-        if (isAutoConvert) {
-            String input = Input.getText();
-            if (input.isEmpty()) {
-                Output.setText("");
-            } 
-            else {
+
+        String input = Input.getText();
+        if (input.isEmpty()) {
+            Output.setText("");
+        } else {
             String functional = modeSwitch(functionalSelected);
-            if (isValidInput(functional, input))
-            {
+            if (isValidInput(functional, input)) {
                 setBase(functional);
                 sendRequest(input, fromBase, toBase);
                 clientModel.flushMessage();
@@ -142,15 +129,13 @@ public class BaseConverterController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
-            else {
+            } else {
                 Output.setText("Lỗi: Vui lòng nhập chuẩn định dạng");
             }
         }
-        }
     }
 
-    public String modeSwitch (String functional) {
+    public String modeSwitch(String functional) {
         String mode = "";
         switch (functional) {
             case "Thập phân sang nhị phân":
@@ -186,8 +171,8 @@ public class BaseConverterController {
         clientModel.sendMessageToServer(toBase);
     }
 
-    //Function Set fromBase and toBase from mode 
-    public void setBase (String mode) {
+    // Function Set fromBase and toBase from mode
+    public void setBase(String mode) {
         switch (mode) {
             case "MODE2":
                 fromBase = "10";
@@ -220,16 +205,14 @@ public class BaseConverterController {
         }
     }
 
-    //Function to handle when user click on convert button
+    // Function to handle when user click on convert button
     public void convertButtonHandle(MouseEvent event) {
         String input = Input.getText();
         if (input.isEmpty()) {
             Output.setText("");
-        } 
-        else {
+        } else {
             String functional = modeSwitch(functionalSelected);
-            if (isValidInput(functional, input))
-            {
+            if (isValidInput(functional, input)) {
                 setBase(functional);
                 sendRequest(input, fromBase, toBase);
                 clientModel.flushMessage();
@@ -237,10 +220,9 @@ public class BaseConverterController {
                     String output = clientModel.receiveMessageFromServer();
                     Output.setText(output);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Output.setText("Lỗi: Không thể kết nối đến server");
                 }
-            }
-            else {
+            } else {
                 Output.setText("Lỗi: Vui lòng nhập chuẩn định dạng");
             }
         }
@@ -250,22 +232,14 @@ public class BaseConverterController {
         boolean isValid = true;
         switch (mode) {
             case "MODE2":
-                if (!input.matches("[0-9]+")) {
-                    isValid = false;
-                }
-                break;
             case "MODE3":
-                if (!input.matches("[0-9]+")) {
-                    isValid = false;
-                }
-                break;
             case "MODE4":
                 if (!input.matches("[0-9]+")) {
                     isValid = false;
                 }
                 break;
             case "MODE5":
-                //bin to dec
+                // bin to dec
                 if (!input.matches("[0-1]+")) {
                     isValid = false;
                 }
@@ -287,7 +261,7 @@ public class BaseConverterController {
         return isValid;
     }
 
-    //Function to handle when user click on bin/clear icon
+    // Function to handle when user click on bin/clear icon
     public void clearButtonHandle(MouseEvent event) {
         Input.setText("");
         Output.setText("");
@@ -296,5 +270,37 @@ public class BaseConverterController {
     public void setFunction(String function) {
         functionalSelected = function;
         FunctionalNameLabel.setText(functionalSelected);
+    }
+
+    private void loadAllBaseConverterView(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../FXML/AllBaseConverter.fxml"));
+            root = loader.load();
+
+            allBaseController = loader.getController();
+            allBaseController.setFunction(functionalSelected);
+
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadMainFunctionalView(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../FXML/MainFunctionalGUI.fxml"));
+            root = loader.load();
+            mainFunctionController = loader.getController();
+            mainFunctionController.setFunction(functionalSelected);
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

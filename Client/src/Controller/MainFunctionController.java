@@ -9,7 +9,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -17,8 +16,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import FXML.FunctionModel;
 import Model.ClientModel;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,7 +24,6 @@ public class MainFunctionController {
     private ClientModel clientModel;
     private boolean isAutoConvert = true;
     private String languageSelect;
-    private FunctionModel selectedFunction;
     private String functionalSelected;
     private Stage stage;
     private Scene scene;

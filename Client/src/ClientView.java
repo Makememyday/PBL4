@@ -1,5 +1,4 @@
 //import Controller.ClientController;
-import Model.ClientModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,7 +14,7 @@ public class ClientView extends Application {
         HBox root = loader.load();
 
         // Create a Scene with the loaded root node
-        Scene scene = new Scene(root, 1000, 600);
+        Scene scene = new Scene(root, 1040, 630);
 
         // Set the scene for the primaryStage (main window)
         primaryStage.setScene(scene);
