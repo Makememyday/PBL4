@@ -107,10 +107,15 @@ public class AllBaseConverterController {
 
     public void sendRequest(String inputNumber, String fromBase, String toBase) {
         System.out.println("Sending request to server: " + inputNumber + " " + fromBase + " " + toBase);
-        clientModel.sendMessageToServer("2");
-        clientModel.sendMessageToServer(inputNumber);
-        clientModel.sendMessageToServer(fromBase);
-        clientModel.sendMessageToServer(toBase);
+        try {
+            System.out.println("Sending request to server: " + inputNumber);
+            clientModel.sendMessageToServer("2");
+            clientModel.sendMessageToServer(inputNumber);
+            clientModel.sendMessageToServer(fromBase);
+            clientModel.sendMessageToServer(toBase);
+        } catch (IOException e) {
+            Output.setText(e.getMessage());
+        }
     }
 
     // Function to handle when user entering input and auto convert is on
@@ -126,7 +131,7 @@ public class AllBaseConverterController {
             String fromBase = FromBase.getValue();
             String toBase = ToBase.getValue();
             if (fromBase == null || toBase == null) {
-                Output.setText("Please select base");
+                Output.setText("Vui lòng chọn cơ số");
                 return;
             }
             sendRequest(input, fromBase, toBase);

@@ -126,9 +126,13 @@ public class MainFunctionController {
 
     public void sendRequest(String inputNumber, String language) {
         System.out.println("Sending request to server: " + inputNumber + " " + language);
-        clientModel.sendMessageToServer("1");
-        clientModel.sendMessageToServer(inputNumber);
-        clientModel.sendMessageToServer(language);
+        try {
+            clientModel.sendMessageToServer("1");
+            clientModel.sendMessageToServer(inputNumber);
+            clientModel.sendMessageToServer(language);
+        } catch (Exception e) {
+            Output.setText(e.getMessage());
+        }
     }
 
     //Function to handle when user entering input and auto convert is on

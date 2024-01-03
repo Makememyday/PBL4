@@ -17,12 +17,11 @@ public class ClientModel {
         }
     }
 
-    public void sendMessageToServer(String message) {
-        try {
+    public void sendMessageToServer(String message) throws IOException {
+        if (dataOutputStream != null)
             dataOutputStream.writeUTF(message);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        else 
+            throw new IOException("Không thể gửi tin nhắn đến server");
     }
 
     public void flushMessage() {

@@ -164,11 +164,15 @@ public class BaseConverterController {
     }
 
     public void sendRequest(String inputNumber, String fromBase, String toBase) {
-        System.out.println("Sending request to server: " + inputNumber);
-        clientModel.sendMessageToServer("2");
-        clientModel.sendMessageToServer(inputNumber);
-        clientModel.sendMessageToServer(fromBase);
-        clientModel.sendMessageToServer(toBase);
+        try {
+            System.out.println("Sending request to server: " + inputNumber);
+            clientModel.sendMessageToServer("2");
+            clientModel.sendMessageToServer(inputNumber);
+            clientModel.sendMessageToServer(fromBase);
+            clientModel.sendMessageToServer(toBase);
+        } catch (IOException e) {
+            Output.setText(e.getMessage());
+        }
     }
 
     // Function Set fromBase and toBase from mode
