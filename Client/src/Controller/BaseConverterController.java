@@ -17,9 +17,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import Model.ClientModel;
 
-public class BaseConverterController {
-
-    private ClientModel clientModel;
+public class BaseConverterController extends Controller {
     private boolean isAutoConvert = true;
     private String functionalSelected;
     private Stage stage;
@@ -43,7 +41,6 @@ public class BaseConverterController {
     private CheckBox AutoConvertBox;
 
     public BaseConverterController() {
-        clientModel = new ClientModel();
     }
 
     @FXML
@@ -117,21 +114,24 @@ public class BaseConverterController {
         String input = Input.getText();
         if (input.isEmpty()) {
             Output.setText("");
-        } else {
-            String functional = modeSwitch(functionalSelected);
-            if (isValidInput(functional, input)) {
-                setBase(functional);
-                sendRequest(input, fromBase, toBase);
-                clientModel.flushMessage();
-                try {
-                    String output = clientModel.receiveMessageFromServer();
-                    Output.setText(output);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                Output.setText("Lỗi: Vui lòng nhập chuẩn định dạng");
+            return;
+        }
+
+        if (getClientModel() == null) return;
+
+        String functional = modeSwitch(functionalSelected);
+        if (isValidInput(functional, input)) {
+            setBase(functional);
+            sendRequest(input, fromBase, toBase);
+            getClientModel().flushMessage();
+            try {
+                String output = getClientModel().receiveMessageFromServer();
+                Output.setText(output);
+            } catch (IOException e) {
+                showErrorMessage("Error: " + e.getMessage());
             }
+        } else {
+            Output.setText("Lỗi: Vui lòng nhập chuẩn định dạng");
         }
     }
 
@@ -166,12 +166,22 @@ public class BaseConverterController {
     public void sendRequest(String inputNumber, String fromBase, String toBase) {
         try {
             System.out.println("Sending request to server: " + inputNumber);
-            clientModel.sendMessageToServer("2");
-            clientModel.sendMessageToServer(inputNumber);
-            clientModel.sendMessageToServer(fromBase);
-            clientModel.sendMessageToServer(toBase);
+            getClientModel().sendMessageToServer("2");
+            getClientModel().sendMessageToServer(inputNumber);
+            getClientModel().sendMessageToServer(fromBase);
+            getClientModel().sendMessageToServer(toBase);
         } catch (IOException e) {
-            Output.setText(e.getMessage());
+            showErrorMessage("Error: " + e.getMessage());
+        }
+    }
+
+    public void renderRecievedMessageFromServer() {
+        try {
+            String output = getClientModel().receiveMessageFromServer();
+            Output.setText(output);
+        } catch (IOException e) {
+            showErrorMessage("Lỗi: Không thể kết nối đến server");
+            e.printStackTrace();
         }
     }
 
@@ -214,21 +224,20 @@ public class BaseConverterController {
         String input = Input.getText();
         if (input.isEmpty()) {
             Output.setText("");
+            return;
+        }
+
+        if (getClientModel() == null) return;
+
+        String functional = modeSwitch(functionalSelected);
+        if (isValidInput(functional, input)) {
+            setBase(functional);
+            sendRequest(input, fromBase, toBase);
+            getClientModel().flushMessage();
+
+            renderRecievedMessageFromServer();
         } else {
-            String functional = modeSwitch(functionalSelected);
-            if (isValidInput(functional, input)) {
-                setBase(functional);
-                sendRequest(input, fromBase, toBase);
-                clientModel.flushMessage();
-                try {
-                    String output = clientModel.receiveMessageFromServer();
-                    Output.setText(output);
-                } catch (IOException e) {
-                    Output.setText("Lỗi: Không thể kết nối đến server");
-                }
-            } else {
-                Output.setText("Lỗi: Vui lòng nhập chuẩn định dạng");
-            }
+            Output.setText("Lỗi: Vui lòng nhập chuẩn định dạng");
         }
     }
 

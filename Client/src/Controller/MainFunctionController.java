@@ -20,8 +20,7 @@ import Model.ClientModel;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 
-public class MainFunctionController {
-    private ClientModel clientModel;
+public class MainFunctionController extends Controller {
     private boolean isAutoConvert = true;
     private String languageSelect;
     private String functionalSelected;
@@ -48,7 +47,6 @@ public class MainFunctionController {
     private ComboBox<String> ChooseLanguageBox;
 
     public MainFunctionController() {
-        clientModel = new ClientModel();
     }
 
     @FXML
@@ -127,11 +125,21 @@ public class MainFunctionController {
     public void sendRequest(String inputNumber, String language) {
         System.out.println("Sending request to server: " + inputNumber + " " + language);
         try {
-            clientModel.sendMessageToServer("1");
-            clientModel.sendMessageToServer(inputNumber);
-            clientModel.sendMessageToServer(language);
+            getClientModel().sendMessageToServer("1");
+            getClientModel().sendMessageToServer(inputNumber);
+            getClientModel().sendMessageToServer(language);
         } catch (Exception e) {
             Output.setText(e.getMessage());
+        }
+    }
+
+    public void renderRecievedMessageFromServer() {
+        try {
+            String output = getClientModel().receiveMessageFromServer();
+            Output.setText(output);
+        } catch (IOException e) {
+            showErrorMessage("Lỗi: Không thể kết nối đến server");
+            e.printStackTrace();
         }
     }
 
@@ -140,26 +148,26 @@ public class MainFunctionController {
         if (functionalSelected == null) {
             return;
         }
-        if (isAutoConvert) {
-            String input = Input.getText();
-            if (input.isEmpty()) {
-                Output.setText("");
-            } 
-            else if (!input.matches("[0-9]+")) {
-                Output.setText("Lỗi: Vui lòng nhập số nguyên dương");
-            }
-            else {
-                sendRequest(input, languageSelect);
-                clientModel.flushMessage();
-                try {
-                    String output = clientModel.receiveMessageFromServer();
-                    Output.setText(output);
-                } catch (IOException e) {
-                    Output.setText("Lỗi: Không thể kết nối đến server");
-                    e.printStackTrace();
-                }
-            }
+
+        if (!isAutoConvert) return;
+
+        String input = Input.getText();
+        if (input.isEmpty()) {
+            Output.setText("");
+            return;
         }
+
+        if (!input.matches("[0-9]+")) {
+            Output.setText("Lỗi: Vui lòng nhập số nguyên dương");
+            return;
+        }
+        
+        if (getClientModel() == null) return;
+
+        sendRequest(input, languageSelect);
+        getClientModel().flushMessage();
+        
+        renderRecievedMessageFromServer();
     }
     
     public String modeSwitch (String functional) {
@@ -185,14 +193,11 @@ public class MainFunctionController {
                 Output.setText("Lỗi: Vui lòng nhập số");
         }
         else {
+            if (getClientModel() == null) return;
+
             sendRequest(input, languageSelect);
 
-            try {
-                String output = clientModel.receiveMessageFromServer();
-                Output.setText(output);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            renderRecievedMessageFromServer();
         }
     }
 

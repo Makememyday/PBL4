@@ -17,12 +17,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import Model.ClientModel;
 import javafx.collections.ObservableList;
 
-public class AllBaseConverterController {
-
-    private ClientModel clientModel;
+public class AllBaseConverterController extends Controller {
     private boolean isAutoConvert = true;
     private String functionalSelected;
     private Stage stage;
@@ -50,7 +47,6 @@ public class AllBaseConverterController {
     private ComboBox<String> FromBase;
 
     public AllBaseConverterController() {
-        clientModel = new ClientModel();
     }
 
     @FXML
@@ -109,12 +105,22 @@ public class AllBaseConverterController {
         System.out.println("Sending request to server: " + inputNumber + " " + fromBase + " " + toBase);
         try {
             System.out.println("Sending request to server: " + inputNumber);
-            clientModel.sendMessageToServer("2");
-            clientModel.sendMessageToServer(inputNumber);
-            clientModel.sendMessageToServer(fromBase);
-            clientModel.sendMessageToServer(toBase);
+            getClientModel().sendMessageToServer("2");
+            getClientModel().sendMessageToServer(inputNumber);
+            getClientModel().sendMessageToServer(fromBase);
+            getClientModel().sendMessageToServer(toBase);
         } catch (IOException e) {
             Output.setText(e.getMessage());
+        }
+    }
+
+    public void renderRecievedMessageFromServer() {
+        try {
+            String output = getClientModel().receiveMessageFromServer();
+            Output.setText(output);
+        } catch (IOException e) {
+            showErrorMessage("Lỗi: Không thể kết nối đến server");
+            e.printStackTrace();
         }
     }
 
@@ -123,26 +129,27 @@ public class AllBaseConverterController {
         if (functionalSelected == null || !isAutoConvert) {
             return;
         }
-        
+
         String input = Input.getText();
         if (input.isEmpty()) {
             Output.setText("");
-        } else {
-            String fromBase = FromBase.getValue();
-            String toBase = ToBase.getValue();
-            if (fromBase == null || toBase == null) {
-                Output.setText("Vui lòng chọn cơ số");
-                return;
-            }
-            sendRequest(input, fromBase, toBase);
-            
-            try {
-                String output = clientModel.receiveMessageFromServer();
-                Output.setText(output);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            return;
         }
+
+        String fromBase = FromBase.getValue();
+        String toBase = ToBase.getValue();
+        if (fromBase == null || toBase == null) {
+            Output.setText("Vui lòng chọn cơ số");
+            return;
+        }
+
+        if (getClientModel() == null) {
+            return;
+        }
+        
+        sendRequest(input, fromBase, toBase);
+        
+        renderRecievedMessageFromServer();
     }
 
     // Function to handle when user click on convert button
@@ -150,22 +157,23 @@ public class AllBaseConverterController {
         String input = Input.getText();
         if (input.isEmpty()) {
             Output.setText("");
-        } else {
-            String fromBase = FromBase.getValue();
-            String toBase = ToBase.getValue();
-            if (fromBase == null || toBase == null) {
-                Output.setText("Please select base");
-                return;
-            }
-            sendRequest(input, fromBase, toBase);
-            
-            try {
-                String output = clientModel.receiveMessageFromServer();
-                Output.setText(output);
-            } catch (IOException e) {
-                Output.setText("Lỗi: Không thể kết nối đến server");
-            }
+            return;
         }
+
+        String fromBase = FromBase.getValue();
+        String toBase = ToBase.getValue();
+        if (fromBase == null || toBase == null) {
+            Output.setText("Please select base");
+            return;
+        }
+        
+        if (getClientModel() == null) {
+            return;
+        }
+
+        sendRequest(input, fromBase, toBase);
+        
+        renderRecievedMessageFromServer();
     }
 
     // Function to handle when user click on bin/clear icon

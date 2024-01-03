@@ -1,5 +1,6 @@
 package Model;
 import java.io.*;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 
 public class ClientModel {
@@ -7,21 +8,20 @@ public class ClientModel {
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
 
-    public ClientModel() {
+    public ClientModel() throws IOException {
         try {
-            socket = new Socket("localhost", 7001);
+            Socket socket = new Socket();
+            socket.connect(new InetSocketAddress("192.168.248.25", 7001), 1000);
+            
             dataInputStream = new DataInputStream(socket.getInputStream());
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IOException("Không thể kết nối đến server", e);
         }
     }
 
     public void sendMessageToServer(String message) throws IOException {
-        if (dataOutputStream != null)
-            dataOutputStream.writeUTF(message);
-        else 
-            throw new IOException("Không thể gửi tin nhắn đến server");
+        dataOutputStream.writeUTF(message);
     }
 
     public void flushMessage() {
