@@ -131,10 +131,16 @@ public class BaseConverterController {
             String functional = modeSwitch(functionalSelected);
             if (isValidInput(functional, input))
             {
-                input += " " + functional;
+                clientModel.sendMessageToServer("2");
                 clientModel.sendMessageToServer(input);
-                String output = clientModel.receiveMessageFromServer();
-                Output.setText(output);
+                
+
+                try {
+                    String output = clientModel.receiveMessageFromServer();
+                    Output.setText(output);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             else {
                 Output.setText("Lỗi: Vui lòng nhập chuẩn định dạng");
@@ -183,8 +189,12 @@ public class BaseConverterController {
             {
                 input += " " + functional;
                 clientModel.sendMessageToServer(input);
-                String output = clientModel.receiveMessageFromServer();
-                Output.setText(output);
+                try {
+                    String output = clientModel.receiveMessageFromServer();
+                    Output.setText(output);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             else {
                 Output.setText("Lỗi: Vui lòng nhập chuẩn định dạng");
