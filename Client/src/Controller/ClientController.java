@@ -173,6 +173,46 @@ public class ClientController {
         }
     }
 
+    public String modeSwitch (String functional) {
+        String mode = "";
+        switch (functional) {
+            case "Chuyển số thành chữ":
+                mode = "MODE1";
+                break;
+            case "Chức năng 2":
+                mode = "MODE2";
+                break;
+            case "Chức năng 3":
+                mode = "MODE3";
+                break;
+            case "Chức năng 4":
+                mode = "MODE4";
+                break;
+            case "Chức năng 5":
+                mode = "MODE5";
+                break;
+            case "Chức năng 6":
+                mode = "MODE6";
+                break;
+            case "Chức năng 7":
+                mode = "MODE7";
+                break;
+            case "Chức năng 8":
+                mode = "MODE8";
+                break;
+            case "Chức năng 9":
+                mode = "MODE9";
+                break;
+            case "Chức năng 10":    
+                mode = "MODE10";
+                break;
+            default:
+                mode = "MODE1";
+                break;
+        }
+        return mode;
+    }
+
     //Function to handle when user click on convert button
     public void convertButtonHandle(MouseEvent event) {
         String input = Input.getText();
@@ -180,7 +220,7 @@ public class ClientController {
             Output.setText("");
         } 
         else if (!input.matches("[0-9]+")) {
-                Output.setText("Lỗi: Vui lòng nhập số nguyên dương");
+                Output.setText("Lỗi: Vui lòng nhập số");
         }
         else {
             //check if string language selected is Vietnamese, plus a VI, if English, plus a EN to input
@@ -190,7 +230,8 @@ public class ClientController {
                 input += " EN";
             }
 
-            //input += " " + functionalSelected;
+            String functional = modeSwitch(functionalSelected);
+            input += " " + functional;
             
             clientModel.sendMessageToServer(input);
             String output = clientModel.receiveMessageFromServer();
