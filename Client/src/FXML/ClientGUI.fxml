@@ -137,7 +137,7 @@
       </VBox>
       <VBox fx:id="mainFrame" prefHeight="599.0" prefWidth="705.0" spacing="20.0">
          <children>
-            <Label fx:id="FunctionalNameLabel" alignment="BOTTOM_LEFT" prefHeight="49.0" prefWidth="699.0" text="Label">
+            <Label fx:id="FunctionalNameLabel" alignment="BOTTOM_LEFT" prefHeight="49.0" prefWidth="699.0" text="Chọn chức năng thực hiện">
                <font>
                   <Font size="26.0" />
                </font>

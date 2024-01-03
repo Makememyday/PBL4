@@ -144,11 +144,18 @@ public class ClientController {
 
     //Function to handle when user entering input and auto convert is on
     public void userInputHandle(KeyEvent event) {
+        if (functionalSelected == null) {
+            return;
+        }
         if (isAutoConvert) {
             String input = Input.getText();
             if (input.isEmpty()) {
                 Output.setText("");
-            } else {
+            } 
+            else if (!input.matches("[0-9]+")) {
+                Output.setText("Lỗi: Vui lòng nhập số nguyên dương");
+            }
+            else {
                 //Add language information to input
                 if (languageSelect.equals("VI")) {
                     input += " VI";
@@ -171,7 +178,11 @@ public class ClientController {
         String input = Input.getText();
         if (input.isEmpty()) {
             Output.setText("");
-        } else {
+        } 
+        else if (!input.matches("[0-9]+")) {
+                Output.setText("Lỗi: Vui lòng nhập số nguyên dương");
+        }
+        else {
             //check if string language selected is Vietnamese, plus a VI, if English, plus a EN to input
             if (languageSelect.equals("VI")) {
                 input += " VI";
@@ -179,7 +190,7 @@ public class ClientController {
                 input += " EN";
             }
 
-            input += " " + functionalSelected;
+            //input += " " + functionalSelected;
             
             clientModel.sendMessageToServer(input);
             String output = clientModel.receiveMessageFromServer();
