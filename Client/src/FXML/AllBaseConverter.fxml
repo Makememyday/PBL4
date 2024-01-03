@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<HBox fx:id="mainframe" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" spacing="15.0" stylesheets="@ClientGUI.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainFunctionController">
+<HBox fx:id="mainframe" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" spacing="15.0" stylesheets="@ClientGUI.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AllBaseConverterController">
    <opaqueInsets>
       <Insets />
    </opaqueInsets>
@@ -27,7 +27,8 @@
             <ImageView fx:id="AppIcon" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Image/App's%20icon.jpg" />
-               </image></ImageView>
+               </image>
+            </ImageView>
             <Line fx:id="SidebarSplitter" endX="100.0" startX="-100.0" />
             <VBox id="MainContainer" prefHeight="460.0" prefWidth="234.0" spacing="2.0" style="-fx-border-radius: 10;">
                <children>
@@ -39,7 +40,8 @@
                         <ImageView fx:id="FunctionalIcon" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@Image/Ellipse%202.png" />
-                           </image></ImageView>
+                           </image>
+                        </ImageView>
                         <Label fx:id="FunctionalName" text="Chuyển số thành chữ">
                            <font>
                               <Font size="16.0" />
@@ -55,7 +57,8 @@
                         <ImageView fx:id="FunctionalIcon" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@Image/Ellipse%202.png" />
-                           </image></ImageView>
+                           </image>
+                        </ImageView>
                         <Label fx:id="FunctionalName" text="Thập phân sang nhị phân">
                            <font>
                               <Font size="16.0" />
@@ -71,7 +74,8 @@
                         <ImageView fx:id="FunctionalIcon" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@Image/Ellipse%202.png" />
-                           </image></ImageView>
+                           </image>
+                        </ImageView>
                         <Label fx:id="FunctionalName" text="Thập phân sang bát phân">
                            <font>
                               <Font size="16.0" />
@@ -87,7 +91,8 @@
                         <ImageView fx:id="FunctionalIcon" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@Image/Ellipse%202.png" />
-                           </image></ImageView>
+                           </image>
+                        </ImageView>
                         <Label fx:id="FunctionalName" text="Thập phân sang thập lục phân">
                            <font>
                               <Font size="16.0" />
@@ -103,7 +108,8 @@
                         <ImageView fx:id="FunctionalIcon" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@Image/Ellipse%202.png" />
-                           </image></ImageView>
+                           </image>
+                        </ImageView>
                         <Label fx:id="FunctionalName" text="Nhị phân sang thập phân">
                            <font>
                               <Font size="16.0" />
@@ -119,7 +125,8 @@
                         <ImageView fx:id="FunctionalIcon" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@Image/Ellipse%202.png" />
-                           </image></ImageView>
+                           </image>
+                        </ImageView>
                         <Label fx:id="FunctionalName" text="Bát phân sang thập phân">
                            <font>
                               <Font size="16.0" />
@@ -180,25 +187,31 @@
                   <String fx:value="borderStyle" />
                </styleClass>
             </Label>
-            <VBox prefHeight="219.0" prefWidth="700.0" styleClass="borderStyle">
+            <VBox prefHeight="190.0" prefWidth="700.0" styleClass="borderStyle">
                <children>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="200.0" spacing="25.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="691.0" spacing="25.0">
                      <children>
-                        <Label fx:id="SampleLabel" onMouseClicked="#sampleLabelSelectedHandle" text="Ví dụ mẫu">
-                           <font>
-                              <Font size="13.0" />
-                           </font>
-                        </Label>
+                        <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="629.0">
+                           <children>
+                              <Label fx:id="SampleLabel" onMouseClicked="#sampleLabelSelectedHandle" prefHeight="19.0" prefWidth="91.0" text="From base : ">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                              <ComboBox prefWidth="150.0" styleClass="baseSelect" />
+                           </children>
+                        </HBox>
                         <ImageView fx:id="Clean" fitHeight="30.0" fitWidth="30.0" onMouseClicked="#clearButtonHandle" pickOnBounds="true">
                            <image>
                               <Image url="@Image/DeleteIcon.png" />
-                           </image></ImageView>
+                           </image>
+                        </ImageView>
                      </children>
                      <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" />
+                        <Insets bottom="10.0" right="10.0" />
                      </padding>
                   </HBox>
-                  <TextArea fx:id="Input" onKeyReleased="#userInputHandle" pickOnBounds="false" prefHeight="177.0" prefWidth="679.0" promptText="Enter number here " wrapText="true" />
+                  <TextArea fx:id="Input" onKeyReleased="#userInputHandle" pickOnBounds="false" prefHeight="131.0" prefWidth="679.0" promptText="Enter number here " wrapText="true" />
                </children>
             </VBox>
             <HBox alignment="CENTER" prefHeight="53.0" prefWidth="700.0" spacing="32.0" styleClass="borderStyle">
@@ -208,14 +221,27 @@
                <children>
                   <CheckBox fx:id="AutoConvertBox" mnemonicParsing="false" onMouseClicked="#autoConvertBoxHandle" selected="true" text="Auto" />
                   <Button fx:id="ConvertButton" mnemonicParsing="false" onMouseClicked="#convertButtonHandle" text="Chuyển đổi" />
-                  <ComboBox fx:id="ChooseLanguageBox" onAction="#chooseLanguageBoxHandle" onMouseClicked="#doSomething" prefHeight="33.0" prefWidth="174.0" promptText="Choose language" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" styleClass="borderStyle">
+            <VBox spacing="15.0" styleClass="borderStyle">
                <children>
-                  <TextArea fx:id="Output" editable="false" prefHeight="232.0" prefWidth="679.0" promptText="Result" wrapText="true" />
+                  <HBox prefHeight="37.0" prefWidth="679.0" spacing="20.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="43.0" prefWidth="629.0">
+                           <children>
+                              <Label fx:id="SampleLabel1" onMouseClicked="#sampleLabelSelectedHandle" prefHeight="19.0" prefWidth="85.0" text="To base : ">
+                                 <font>
+                                    <Font name="System Italic" size="13.0" />
+                                 </font>
+                              </Label>
+                              <ComboBox prefHeight="24.0" prefWidth="150.0" styleClass="baseSelect" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+                  <TextArea fx:id="Output" editable="false" prefHeight="169.0" prefWidth="679.0" promptText="Result" wrapText="true" />
                </children>
-            </HBox>
+            </VBox>
          </children>
       </VBox>
    </children>
