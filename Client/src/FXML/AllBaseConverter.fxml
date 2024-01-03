@@ -198,7 +198,7 @@
                                     <Font size="13.0" />
                                  </font>
                               </Label>
-                              <ComboBox fx:id="FromBase" prefWidth="150.0" styleClass="baseSelect" />
+                              <ComboBox fx:id="FromBase" prefWidth="150.0" promptText="2,4,6..." styleClass="baseSelect" />
                            </children>
                         </HBox>
                         <ImageView fx:id="Clean" fitHeight="30.0" fitWidth="30.0" onMouseClicked="#clearButtonHandle" pickOnBounds="true">
@@ -234,7 +234,7 @@
                                     <Font name="System Italic" size="13.0" />
                                  </font>
                               </Label>
-                              <ComboBox fx:id="ToBase" prefHeight="24.0" prefWidth="150.0" styleClass="baseSelect" />
+                              <ComboBox fx:id="ToBase" prefHeight="24.0" prefWidth="150.0" promptText="2,4,6..." styleClass="baseSelect" />
                            </children>
                         </HBox>
                      </children>
